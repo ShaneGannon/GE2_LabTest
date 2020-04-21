@@ -1,3 +1,11 @@
+# Final Update 
+
+Traffic lights spawn fully procedurally.
+Traffic light control works using coroutines
+Car successfully randomly select a green traffic light and got to it using arrive but only does so once.
+Changing the state of a state machine causes unity to crash and unsure as to reason. 
+Code for changing target if color changes or if arriving at target light remains but is commented out in car.cs
+
 # GE2_LabTest
 
 Initial idea is to use 2 Finite state machines.

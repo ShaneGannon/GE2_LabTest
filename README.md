@@ -44,3 +44,11 @@ while (targetGO.state == green)
   if speed = 0 (you have arrived)
   change state to PickTarget and start PickTarget and then return
 }
+change state to PickTarget and start PickTarget and then return outside of while loop
+
+___________UPDATE__________
+Traffic lights fullw working as intended from initial spawning to color changing
+Implementation for changing traffic light colours achieved through use of coroutines instead of state machine. Use of coroutine allows for easy 'sleeps' or waiting periods required for the traffic lights. These proved difficult to implement in the state machine in its current iteration.
+
+Car can search properly for a random green traffic light but changing state is leading to unity freezing upon start. Unsure as to why,
+have checked code and seems to be correct. The only thing remaining to implement is for the car to check the current targets color and recalculate its target if its targets colour isnt green.

@@ -31,11 +31,12 @@ class FindTargetState : State
         owner.GetComponent<Arrive>().enabled = true;
         // Set the target in the main class
         owner.GetComponent<car>().target = picktarget;
-
+        //owner.GetComponent<StateMachine>().ChangeState(new ArriveTargetState());
     }
-}
 
-/*class ArriveTargetState : State
+}
+/*
+class ArriveTargetState : State
 {
     public override void Enter()
     {
@@ -48,6 +49,11 @@ class FindTargetState : State
         }
 
         owner.GetComponent<StateMachine>().ChangeState(new FindTargetState());
+    }
+
+    public override void Exit()
+    {
+        owner.GetComponent<Arrive>().enabled = false;
     }
 }
 */

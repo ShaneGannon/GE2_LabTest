@@ -1,54 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
-
-class GreenLightState : State 
-{
-    public override void Enter()
-    {
-        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
-        int rand = Random.Range(5, 11);
-        new WaitForSeconds(rand);
-    }   
-}
-
-class YellowLightState : State
-{
-    public override void Enter()
-    {
-        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
-        new WaitForSeconds(4.0f);
-    }
-}
-
-class RedLightState : State
-{
-    public override void Enter()
-    {
-        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-        int rand = Random.Range(5, 11);
-        new WaitForSeconds(rand);
-    }
-}
 
 
 public class TrafficLight : MonoBehaviour
 {
+    private IEnumerator GoGreen()
+    {
+        StopCoroutine(GoRed());
+        int rand;
+        // Change color, create random timer and wait
+        gameObject.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+        rand = Random.Range(5, 11);
+        yield return new WaitForSeconds(rand);
+        StartCoroutine(GoYellow());
+        
+        yield break;
+    }
+
+    private IEnumerator GoYellow()
+    {
+        StopCoroutine(GoGreen());
+        int rand;
+        // Change color, create random timer and wait
+        gameObject.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+        yield return new WaitForSeconds(4);
+        StartCoroutine(GoRed());
+        yield break;
+    }
+
+    private IEnumerator GoRed()
+    {
+        StopCoroutine(GoYellow());
+        int rand;
+        // Change color, create random timer and wait
+        gameObject.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+        rand = Random.Range(5, 11);
+        yield return new WaitForSeconds(rand);
+        StartCoroutine(GoGreen());
+        yield break;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         // Change the initial state based on the color of the Game Object
+        // For Green
         if(gameObject.GetComponent<MeshRenderer>().material.color == Color.green)
         {
-            GetComponent<StateMachine>().ChangeState(new GreenLightState());
+            StartCoroutine(GoGreen());
         }
+
+        // For Yellow
         else if (gameObject.GetComponent<MeshRenderer>().material.color == Color.yellow)
         {
-            GetComponent<StateMachine>().ChangeState(new YellowLightState());
+            StartCoroutine(GoYellow());
         }
+
+        // For Red
         else if (gameObject.GetComponent<MeshRenderer>().material.color == Color.red)
         {
-            GetComponent<StateMachine>().ChangeState(new RedLightState());
+            StartCoroutine(GoRed());
         }
     }
 

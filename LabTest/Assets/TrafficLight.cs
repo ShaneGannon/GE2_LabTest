@@ -2,43 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+class GreenLightState : State 
+{
+    public override void Enter()
+    {
+        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
+        int rand = Random.Range(5, 11);
+        new WaitForSeconds(rand);
+    }   
+}
+
+class YellowLightState : State
+{
+    public override void Enter()
+    {
+        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
+        new WaitForSeconds(4.0f);
+    }
+}
+
+class RedLightState : State
+{
+    public override void Enter()
+    {
+        owner.GetComponent<TrafficLight>().gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+        int rand = Random.Range(5, 11);
+        new WaitForSeconds(rand);
+    }
+}
+
+
 public class TrafficLight : MonoBehaviour
 {
-    IEnumerator Greenlight()
+    // Start is called before the first frame update
+    void Start()
     {
-        // Get random range for time
-        int rand = Random.Range(5, 11);
-
-        // Set colour to green
-
-        // Yield Return
-        yield return new WaitForSeconds(rand);
+        // Change the initial state based on the color of the Game Object
+        if(gameObject.GetComponent<MeshRenderer>().material.color == Color.green)
+        {
+            GetComponent<StateMachine>().ChangeState(new GreenLightState());
+        }
+        else if (gameObject.GetComponent<MeshRenderer>().material.color == Color.yellow)
+        {
+            GetComponent<StateMachine>().ChangeState(new YellowLightState());
+        }
+        else if (gameObject.GetComponent<MeshRenderer>().material.color == Color.red)
+        {
+            GetComponent<StateMachine>().ChangeState(new RedLightState());
+        }
     }
 
-    IEnumerator Yellowlight()
+    // Update is called once per frame
+    void Update()
     {
-        // Set colour to yellow
 
-        // Yield Return
-        yield return new WaitForSeconds(4.0f);
     }
-
-    IEnumerator Redlight()
-    {
-        // Get random range for time
-        int rand = Random.Range(5, 11);
-
-        // Set colour to red
-
-        // Yield Return
-        yield return new WaitForSeconds(rand);
-    }
-
-    void OnEnable()
-    {
-        StartCoroutine(Greenlight());
-        StartCoroutine(Yellowlight());
-        StartCoroutine(Redlight());
-    }
-
 }

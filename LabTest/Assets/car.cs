@@ -27,12 +27,30 @@ class FindTargetState : State
                 break;
             }
         }
-
         owner.GetComponent<Arrive>().targetPosition = targetPos;
         owner.GetComponent<Arrive>().enabled = true;
+        // Set the target in the main class
         owner.GetComponent<car>().target = picktarget;
+
     }
 }
+
+/*class ArriveTargetState : State
+{
+    public override void Enter()
+    {
+        GameObject target = owner.GetComponent<car>().target;
+
+        while (target.GetComponent<MeshRenderer>().material.color == Color.green)
+        {
+            owner.GetComponent<Arrive>().targetPosition = target.transform.position;
+            owner.GetComponent<Arrive>().enabled = true;
+        }
+
+        owner.GetComponent<StateMachine>().ChangeState(new FindTargetState());
+    }
+}
+*/
 
 public class car : MonoBehaviour
 {

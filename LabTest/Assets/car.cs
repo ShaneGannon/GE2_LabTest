@@ -27,28 +27,36 @@ class FindTargetState : State
                 break;
             }
         }
+        //IF THE STATE MACHINE WASNT A CRASH THE FOLLOWING TWO LINES WOULD BE COMMENTED OUT AND THE CHANGE STATE IN LINE 36 WOULD BE USED
         owner.GetComponent<Arrive>().targetPosition = targetPos;
         owner.GetComponent<Arrive>().enabled = true;
         // Set the target in the main class
         owner.GetComponent<car>().target = picktarget;
-        //owner.GetComponent<StateMachine>().ChangeState(new ArriveTargetState());
-    }
+        //HERE IS WHERE CHANGE STATE IS SUPPOSED TO BE
+        //owner.GetComponent<StateMachine>().ChangeState(new FindTargetState());
 
+    }
 }
-/*
+
+/* HERE IS THE CODE TO MAKE THE CUBE GO BACK MOVE INTO PICKING A TARGET
 class ArriveTargetState : State
 {
     public override void Enter()
     {
         GameObject target = owner.GetComponent<car>().target;
 
-        while (target.GetComponent<MeshRenderer>().material.color == Color.green)
-        {
-            owner.GetComponent<Arrive>().targetPosition = target.transform.position;
-            owner.GetComponent<Arrive>().enabled = true;
-        }
+        owner.GetComponent<Arrive>().targetPosition = target.transform.position;
+        owner.GetComponent<Arrive>().enabled = true;
+    }
 
-        owner.GetComponent<StateMachine>().ChangeState(new FindTargetState());
+    public override void Think()
+    {
+        GameObject target = owner.GetComponent<car>().target;
+
+        if (target.transform.position == owner.GetComponent<car>().transform.position || target.GetComponent<MeshRenderer>().material.color != Color.green)
+        {
+            owner.GetComponent<StateMachine>().ChangeState(new FindTargetState());
+        }
     }
 
     public override void Exit()

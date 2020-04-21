@@ -23,7 +23,25 @@ public class spawner : MonoBehaviour
         {
             int a = i * angle;
             Vector3 pos = GetPos(center, 60.0f, a);
-            Instantiate(prefab, pos, Quaternion.identity);
+            var myObject = Instantiate(prefab, pos, Quaternion.identity);
+
+            // Use random number genertaion to decide initial color and state
+            int rand = Random.Range(0, 3);
+            if(rand == 0)
+            {
+                // Change color of prefab
+                myObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            }
+            else if(rand == 1)
+            {
+                // Change color of prefab
+                myObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            }
+            else if (rand == 2)
+            {
+                // Change color of prefab
+                myObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            }            
         }
     }
 

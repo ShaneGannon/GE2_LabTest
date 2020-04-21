@@ -41,7 +41,9 @@ public class spawner : MonoBehaviour
             {
                 // Change color of prefab
                 myObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            }            
+            }
+
+            myObject.transform.parent = this.transform; // Parenting
         }
     }
 
